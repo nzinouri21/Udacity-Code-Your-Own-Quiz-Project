@@ -4,7 +4,7 @@ playername=raw_input("What is your name?")
 print "\n"
 print "Hello " + playername + "!"
 print "\n"
-print "Let's see how well yu now The Big Bang Theory!"
+print "Let's see how well you know The Big Bang Theory!"
 level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
 
 
@@ -41,19 +41,22 @@ blanks = ["___1___", "___2___", "___3___", "___4___"]
 #If the difficulty level is not in the available_levels, the player will receive an error
 #The purpose of this function is to decide which question and which answers should
 #be used to run the game
-def choose_difficulty_level(level):
+def play_game(level):
     if level in available_levels:
         if level == "easy":
             answers = answers_level_easy
             question = question_level_easy
+            play_game_function(question, answer)
             return "You chose easy level!"
         elif level == "medium":
             answers = answers_level_medium
             question = question_level_medium
+            play_game_function(question, answer)
             return "You chose medium level!"
     elif level == "difficult":
             answers = answers_level_difficult
             question = question_level_difficult
+            play_game_function(question, answer)
             return "You chose difficult level!"
     else:
         return "Sorry, you selected the wrong level!"
@@ -71,6 +74,43 @@ print "\n"
 # Checks if a word that the player chooses is in the answers to the question
 def word_in_pos(playeranswer, answers):
     for pos in answers:
-        if pos in playeranswer OR playeranswer in pos:
+        if pos in playeranswer:
             return pos
     return None
+
+# Plays a full game of The Big Bang Theory fill in the blanks quiz.
+# A player is prompted to replace blanks in question,
+# which appear in blanks with their own words.
+def play_game_function(question, answers):
+    game_output=[]
+    question=question.split()
+    blank_index=0
+    for word in question:
+        replacement =  word_in_pos(word, answers)
+        if replacement != None:
+            first_answer=word
+            game_output.append("_____"+str(blank_index+1)+"_____")
+            blank_index=blank_index+1
+        else:
+            game_output.append(word)
+    game_output = " ".join(game_output)
+    print game_output
+    number_of_questions=blank_index
+    number_of_questions_answered=0
+    while number_of_questions_answered<len(answers):
+        question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
+        if question_answer==answers[number_of_questions_answered]:
+            print "Congratulations! Your answer was correct!"
+        else:
+            question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
+            if question_answer==answers[number_of_questions_answered]:
+                print "Congratulations! Your answer was correct!"
+            else:
+                print "This level might have been too difficult for you!"
+        number_of_questions_answered=number_of_questions_answered+1
+    print "Thanks for playing!"
+
+
+
+
+print play_game(level)
