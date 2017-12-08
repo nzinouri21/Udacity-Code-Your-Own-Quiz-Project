@@ -1,4 +1,14 @@
 ###############################3
+#Let's start getting some input from the player!
+playername=raw_input("What is your name?")
+print "\n"
+print "Hello " + playername + "!"
+print "\n"
+print "Let's see how well yu now The Big Bang Theory!"
+level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
+
+
+
 #The following are the lists containing the words that are the correct answers
 #to each level of the game
 answers_level_easy  = ["Howard", "Caltech", "The Cheesecake Factory", "India"]
@@ -23,6 +33,10 @@ Saturday night is of course ___4___ night.'''
 
 available_levels = ["easy", "medium", "difficult"]
 
+blanks = ["___1___", "___2___", "___3___", "___4___"]
+
+
+
 #This function asks the user to choose a difficulty level.
 #If the difficulty level is not in the available_levels, the player will receive an error
 #The purpose of this function is to decide which question and which answers should
@@ -37,13 +51,26 @@ def choose_difficulty_level(level):
             answers = answers_level_medium
             question = question_level_medium
             return "You chose medium level!"
-        elif level == "medium":
+    elif level == "difficult":
             answers = answers_level_difficult
             question = question_level_difficult
             return "You chose difficult level!"
     else:
         return "Sorry, you selected the wrong level!"
 
+
+
+print "Fill in the blank the missing word(s) (case sensitive):"
+print "\n"
+
 #Testing choose_difficulty_level function
 #  print choose_difficulty_level("easy")
 #  print choose_difficulty_level("m")
+
+
+# Checks if a word that the player chooses is in the answers to the question
+def word_in_pos(playeranswer, answers):
+    for pos in answers:
+        if pos in playeranswer OR playeranswer in pos:
+            return pos
+    return None
