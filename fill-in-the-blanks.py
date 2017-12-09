@@ -81,7 +81,7 @@ def word_in_pos(playeranswer, answers):
             return pos
     return None
 
-def check_correct_answer(answers):
+def check_correct_answer(question, answers):
     '''Determines if the users answered correctly and if not, if they have another try left'''
 
     number_of_questions_answered=0
@@ -90,10 +90,14 @@ def check_correct_answer(answers):
         question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
         if question_answer==answers[number_of_questions_answered]:
             print "Congratulations! Your answer was correct!"
+            level=question.replace(blanks[number_of_questions_answered], question_answer)
+            print level
         else:
             question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
             if question_answer==answers[number_of_questions_answered]:
                 print "Congratulations! Your answer was correct!"
+                level=question.replace(blanks[number_of_questions_answered], question_answer)
+                print level
             else:
                 print "This level might have been too difficult for you!"
         number_of_questions_answered=number_of_questions_answered+1
@@ -108,9 +112,9 @@ def play_game_function(question, answers):
        which appear in blanks with their own words. '''
 
     game_output=[]
-    question=question.split()
+    question2=question.split()
     blank_index=0
-    for word in question:
+    for word in question2:
         replacement =  word_in_pos(word, answers)
         if replacement != None:
             first_answer=word
@@ -118,11 +122,11 @@ def play_game_function(question, answers):
             blank_index=blank_index+1
         else:
             game_output.append(word)
+
     game_output = " ".join(game_output)
     print game_output
     number_of_questions=blank_index
-    check_correct_answer(answers)
-
+    check_correct_answer(question, answers)
 
     print "Thanks for playing!"
 
