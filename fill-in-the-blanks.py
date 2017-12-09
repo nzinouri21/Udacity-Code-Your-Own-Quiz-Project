@@ -49,19 +49,19 @@ def play_game(level):
             answers = answers_level_easy
             question = question_level_easy
             play_game_function(question, answers)
-            return "You chose easy level!"
+            print "You chose easy level!"
         elif level == "medium":
             answers = answers_level_medium
             question = question_level_medium
             play_game_function(question, answers)
-            return "You chose medium level!"
+            print "You chose medium level!"
         elif level == "difficult":
             answers = answers_level_difficult
             question = question_level_difficult
             play_game_function(question, answers)
-            return "You chose difficult level!"
+            print "You chose difficult level!"
     else:
-        return "Sorry, you selected the wrong level!"
+        print "Sorry, you selected the wrong level!"
 
 
 
@@ -81,10 +81,30 @@ def word_in_pos(playeranswer, answers):
             return pos
     return None
 
-# Plays a full game of The Big Bang Theory fill in the blanks quiz.
-# A player is prompted to replace blanks in question,
-# which appear in blanks with their own words.
+def check_correct_answer(answers):
+    '''Determines if the users answered correctly and if not, if they have another try left'''
+
+    number_of_questions_answered=0
+    while number_of_questions_answered<len(answers):
+        question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
+        if question_answer==answers[number_of_questions_answered]:
+            print "Congratulations! Your answer was correct!"
+        else:
+            question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
+            if question_answer==answers[number_of_questions_answered]:
+                print "Congratulations! Your answer was correct!"
+            else:
+                print "This level might have be too difficult for you!"
+    number_of_questions_answered=number_of_questions_answered+1
+
+
+
+
 def play_game_function(question, answers):
+    '''Plays a full game of The Big Bang Theory fill in the blanks quiz.
+       A player is prompted to replace blanks in question,
+       which appear in blanks with their own words. '''
+
     game_output=[]
     question=question.split()
     blank_index=0
@@ -99,18 +119,8 @@ def play_game_function(question, answers):
     game_output = " ".join(game_output)
     print game_output
     number_of_questions=blank_index
-    number_of_questions_answered=0
-    while number_of_questions_answered<len(answers):
-        question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
-        if question_answer==answers[number_of_questions_answered]:
-            print "Congratulations! Your answer was correct!"
-        else:
-            question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
-            if question_answer==answers[number_of_questions_answered]:
-                print "Congratulations! Your answer was correct!"
-            else:
-                print "This level might have been too difficult for you!"
-        number_of_questions_answered=number_of_questions_answered+1
+    check_correct_answer(answers)
+
     print "Thanks for playing!"
 
 
