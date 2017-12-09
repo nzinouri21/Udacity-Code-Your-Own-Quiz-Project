@@ -37,11 +37,13 @@ blanks = ["___1___", "___2___", "___3___", "___4___"]
 
 
 
-#This function asks the user to choose a difficulty level.
-#If the difficulty level is not in the available_levels, the player will receive an error
-#The purpose of this function is to decide which question and which answers should
-#be used to run the game
+
 def play_game(level):
+    '''This function asks the user to choose a difficulty level.
+       If the difficulty level is not in the available_levels, the player will receive an error
+       The purpose of this function is to decide which question and which answers should
+       be used to run the game '''
+
     if level in available_levels:
         if level == "easy":
             answers = answers_level_easy
@@ -53,7 +55,7 @@ def play_game(level):
             question = question_level_medium
             play_game_function(question, answers)
             return "You chose medium level!"
-    elif level == "difficult":
+        elif level == "difficult":
             answers = answers_level_difficult
             question = question_level_difficult
             play_game_function(question, answers)
@@ -71,8 +73,9 @@ print "\n"
 #  print choose_difficulty_level("m")
 
 
-# Checks if a word that the player chooses is in the answers to the question
+
 def word_in_pos(playeranswer, answers):
+    '''Checks if a word that the player chooses is in the answers to the question'''
     for pos in answers:
         if pos in playeranswer:
             return pos
