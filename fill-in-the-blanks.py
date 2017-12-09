@@ -86,6 +86,7 @@ def check_correct_answer(answers):
 
     number_of_questions_answered=0
     while number_of_questions_answered<len(answers):
+
         question_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
         if question_answer==answers[number_of_questions_answered]:
             print "Congratulations! Your answer was correct!"
@@ -94,8 +95,9 @@ def check_correct_answer(answers):
             if question_answer==answers[number_of_questions_answered]:
                 print "Congratulations! Your answer was correct!"
             else:
-                print "This level might have be too difficult for you!"
-    number_of_questions_answered=number_of_questions_answered+1
+                print "This level might have been too difficult for you!"
+        number_of_questions_answered=number_of_questions_answered+1
+
 
 
 
@@ -120,6 +122,7 @@ def play_game_function(question, answers):
     print game_output
     number_of_questions=blank_index
     check_correct_answer(answers)
+
 
     print "Thanks for playing!"
 
