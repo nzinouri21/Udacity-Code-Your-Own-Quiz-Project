@@ -46,17 +46,17 @@ def play_game(level):
         if level == "easy":
             answers = answers_level_easy
             question = question_level_easy
-            play_game_function(question, answer)
+            play_game_function(question, answers)
             return "You chose easy level!"
         elif level == "medium":
             answers = answers_level_medium
             question = question_level_medium
-            play_game_function(question, answer)
+            play_game_function(question, answers)
             return "You chose medium level!"
     elif level == "difficult":
             answers = answers_level_difficult
             question = question_level_difficult
-            play_game_function(question, answer)
+            play_game_function(question, answers)
             return "You chose difficult level!"
     else:
         return "Sorry, you selected the wrong level!"
