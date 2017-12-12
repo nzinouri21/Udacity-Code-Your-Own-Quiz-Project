@@ -43,6 +43,33 @@ def choose_difficulty_level():
     while level not in available_levels:
         print "Sorry, you selected the wrong level!"
         level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
+    print "you chose" + level + "!"
     return level
 
-print choose_difficulty_level()
+def get_question_and_answer(level):
+    '''retrieves the corresponding question and answer based on selected level.
+
+    Args:
+        level: gets the level the player selected.
+    Returns:
+        question: string for the corresponding level's question.
+        answer: the list of answers for the level selected.
+    '''
+    if level == "easy":
+        answer = answers_level_easy
+        question = question_level_easy
+    elif level == "medium":
+        answer = answers_level_medium
+        question = question_level_medium
+    elif level == "difficult":
+        answer = answers_level_difficult
+        question = question_level_difficult
+    else:
+        print "You selected a wrong difficulty level!"
+    return answer, question
+
+
+
+
+#print choose_difficulty_level()
+print get_question_and_answer("easy")
