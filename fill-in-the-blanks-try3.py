@@ -61,7 +61,11 @@ def play_game(level):
             play_game_function(question, answers)
             print "You chose difficult level!"
     else:
-        print "Sorry, you selected the wrong level!"
+        while level not in available_levels:
+            print "Sorry, you selected the wrong level!"
+            level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
+            play_game(level)
+
 
 
 
@@ -69,7 +73,7 @@ print "Fill in the blank the missing word(s) (case sensitive):"
 print "\n"
 
 #Testing choose_difficulty_level function
-print choose_difficulty_level("easy")
+#print choose_difficulty_level("easy")
 #  print choose_difficulty_level("m")
 
 

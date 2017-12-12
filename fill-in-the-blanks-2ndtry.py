@@ -1,16 +1,11 @@
-#in-line comment! Starting the game by asking the player's name
-#and greeting them!
-player_name = raw_input("What is your name?")
+#Let's start getting some input from the player!
+playername=raw_input("What is your name?")
 print "\n"
-print "Hello " + player_name + "!"
+print "Hello " + playername + "!"
 print "\n"
 print "Let's see how well you know The Big Bang Theory!"
 level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
 
-#Defining the difficulty levels that the player can choose from
-available_levels = ["easy", "medium", "difficult"]
-
-blanks = ["___1___", "___2___", "___3___", "___4___"]
 
 
 #The following are the lists containing the words that are the correct answers
@@ -35,24 +30,12 @@ to jail after insulting a judge in traffic court. According to the "Sheldonian C
 ___2___ night is "Vintage Video Game Night", ___3___ night is "Thai Takeout" night and
 Saturday night is of course ___4___ night.'''
 
+available_levels = ["easy", "medium", "difficult"]
 
-def choose_difficulty_level(level):
-    '''prompts the user to select the difficulty level.
-    Args:
-        None
-    Returns:
-        level (string): a member from the list, available_levels.
-    '''
-    while level not in available_levels:
-        print "Sorry, you selected the wrong level!"
-        level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
-    print "you chose" + level + "!"
-    return level
+blanks = ["___1___", "___2___", "___3___", "___4___"]
 
 
-
-
-def get_question_and_answer(level):
+def play_game(level):
     '''retrieves the corresponding question and answer based on selected level.
 
     Args:
@@ -61,6 +44,7 @@ def get_question_and_answer(level):
         question: string for the corresponding level's question.
         answer: the list of answers for the level selected.
     '''
+
     if level == "easy":
         answer = answers_level_easy
         question = question_level_easy
@@ -71,8 +55,16 @@ def get_question_and_answer(level):
         answer = answers_level_difficult
         question = question_level_difficult
     else:
-        print "You selected a wrong difficulty level!"
+        while level not in available_levels:
+            print "Sorry, you selected the wrong level!"
+            level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
+            play_game(level)
 
+
+
+
+print "Fill in the blank the missing word(s) (case sensitive):"
+print "\n"
 
 def word_in_pos(playeranswer, answer):
     '''Checks if a word that the player chooses is in the answers to the question
@@ -87,7 +79,7 @@ def word_in_pos(playeranswer, answer):
             return pos
     return None
 
-def check_players_answer(question, answer, player_answer):
+def check_players_answer(question, answer):
     number_of_questions_answered=0
     num_tries=0
     while number_of_questions_answered<=len(answer):
@@ -98,14 +90,14 @@ def check_players_answer(question, answer, player_answer):
         else:
             while num_tries<=4:
                 print "Try again!"
-                check_players_answer(question, answer, player_answer)
+                check_players_answer(question, answer)
                 num_tries=num_tries+1
 
 
 
 
 
-def play_game_function(question, answers):
+def play_game_function(question, answer):
     '''Plays a full game of The Big Bang Theory fill in the blanks quiz.
        A player is prompted to replace blanks in question,
        which appear in blanks with their own words. '''
@@ -127,9 +119,4 @@ def play_game_function(question, answers):
     number_of_questions=blank_index
     check_players_answer(question, answer, player_answer)
 
-
-
-
-
-
-print get_question_and_answer(level)
+print play_game(level)
