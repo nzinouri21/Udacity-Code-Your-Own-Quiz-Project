@@ -69,7 +69,7 @@ print "Fill in the blank the missing word(s) (case sensitive):"
 print "\n"
 
 #Testing choose_difficulty_level function
-#  print choose_difficulty_level("easy")
+print choose_difficulty_level("easy")
 #  print choose_difficulty_level("m")
 
 
