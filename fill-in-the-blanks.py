@@ -1,14 +1,5 @@
-#in-line comment! Starting the game by asking the player's name
-#and greeting them!
-player_name = raw_input("What is your name?")
-print "\n"
-print "Hello " + player_name + "!"
-print "\n"
-print "Let's see how well you know The Big Bang Theory!"
-level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
-
 #Defining the difficulty levels that the player can choose from
-available_levels = ["easy", "medium", "difficult"]
+available_difficulty_levels = ["easy", "medium", "difficult"]
 
 blanks = ["___1___", "___2___", "___3___", "___4___"]
 
@@ -36,100 +27,144 @@ ___2___ night is "Vintage Video Game Night", ___3___ night is "Thai Takeout" nig
 Saturday night is of course ___4___ night.'''
 
 
-def choose_difficulty_level(level):
-    '''prompts the user to select the difficulty level.
+
+
+def select_level_of_difficulty():
+    '''prompts user to select a difficulty level.
     Args:
         None
     Returns:
-        level (string): a member from the list, available_levels.
+        level: string, that is a member of available_difficulty_levels list.
     '''
-    while level not in available_levels:
-        print "Sorry, you selected the wrong level!"
-        level=raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult):")
-    print "you chose" + level + "!"
-    return level
+    level = raw_input("Choose which level of difficulty you'd like to play (easy, medium or difficult) or Type 'Q' to quit")
+    if level in ["Q","q"]:
+        quit()
+    else:
+        if level in available_difficulty_levels:
+            print "you chose  "+ level+"!"
+            return level
+        else:
+            print "Please choose a right input (easy, medium or difficult) "
+            select_level_of_difficulty()
 
-
-
-
-def get_question_and_answer(level):
+def return_questions(level):
     '''retrieves the corresponding question and answer based on selected level.
 
     Args:
         level: gets the level the player selected.
     Returns:
         question: string for the corresponding level's question.
+
+    '''
+    if level in available_difficulty_levels:
+        if level == "easy":
+            question = question_level_easy
+        elif level == "medium":
+            question = question_level_medium
+        elif level == "difficult":
+            question = question_level_difficult
+        return question
+
+    else:
+        print "You selected a wrong difficulty level!"
+#select_level_of_difficulty()
+
+def return_answers(level):
+    '''retrieves the corresponding question and answer based on selected level.
+
+    Args:
+        level: gets the level the player selected.
+    Returns:
         answer: the list of answers for the level selected.
     '''
-    if level == "easy":
-        answer = answers_level_easy
-        question = question_level_easy
-    elif level == "medium":
-        answer = answers_level_medium
-        question = question_level_medium
-    elif level == "difficult":
-        answer = answers_level_difficult
-        question = question_level_difficult
+    if level in available_difficulty_levels:
+        if level == "easy":
+            answer = answers_level_easy
+        elif level == "medium":
+            answer = answers_level_medium
+        elif level == "difficult":
+            answer = answers_level_difficult
+        return answer
+
     else:
         print "You selected a wrong difficulty level!"
 
-
-def word_in_pos(playeranswer, answer):
-    '''Checks if a word that the player chooses is in the answers to the question
+def show_question(question, answer, position_of_blank=1, number_answered=0):
+    '''validates user response based on the difficulty level selected
     Args:
-        playeranswer: player's response
-        answer: the list of correct answrers
+        level: easy, medium, or difficult
+        position_of_blank: position of blanks within sentence, default is first blank
+        number_answered: number of blanks already filled, default is zero (no blanks filled)
     Returns:
-        pos: correct answer
+        None
     '''
-    for pos in answer:
-        if pos in playeranswer:
-            return pos
-    return None
-
-def check_players_answer(question, answer, player_answer):
-    number_of_questions_answered=0
-    num_tries=0
-    while number_of_questions_answered<=len(answer):
-        player_answer=raw_input("What word can you substitute for the blank"+" number "+str(number_of_questions_answered+1)+"?")
-        if player_answer==answer[number_of_questions_answered]:
-            print "Congratulations! Your answer was correct!"
-            return True
+    total_questions=4
+    while number_answered<=total_questions:
+        answer_to_blank=raw_input("What word can you substitute for the blank"+" number "+str(number_answered+1)+"?")
+        if check_answer(answer, position_of_blank, answer_to_blank):
+            if position_of_blank >= total_questions:
+                print "Great job! You got all the answers right!"
+                display_filled_sentence(question, answer, position_of_blank)
+                print "Returning to the beginning of the game"
+                start_game()
+            print "Good job! You got this question right!"
+            display_filled_sentence(question, answer, position_of_blank)
+            number_answered=number_answered+1
+            position_of_blank=position_of_blank+1
         else:
-            while num_tries<=4:
-                print "Try again!"
-                check_players_answer(question, answer, player_answer)
-                num_tries=num_tries+1
+            print "your answer is wrong. Try again."
+            show_question(question, answer, position_of_blank, number_answered)
 
+def check_answer(answer, blank_index, player_answer):
+    '''validates player's response by comparing it to the answers in answer key
+    Args:
+        answer: correct answer array for either easy, medium, or difficult
+        blank_index: position of blanks within sentence,
+        player_answer: string, answer provided by the player
+    Returns:
+        A boolean output to determine whether the response is correct or not
+    '''
+    return str(player_answer).lower().strip() == answer[blank_index - 1].lower()
 
+def display_filled_sentence(question, answer, position):
+    """Displays the sentence as the user fills it in
+    Args:
+        level : level selected by user
+        position : position of blank within sentence
+    Returns:
+        Does not return anything
+    """
 
+    replacement_position = 1
+    sentence = question
+    while replacement_position <= position:
+      question = question.replace('_' + str(replacement_position) + '_', answer[replacement_position - 1])
+      replacement_position =replacement_position+1
+    print question
 
+def start_game():
+    """Prompts user and plays through game
+    Args:
+        None
+    Returns:
+        Does not return anything
+    """
+    # Start game with a prompt to the user
+    print("Welcome to the Big Bang Theory fill-in-the-blanks quiz")
+    player_name = raw_input("What is your name?")
+    print "Hello " + player_name + "!"
+    print "Let's see how well you know The Big Bang Theory!"
+    while True:
+        # Immediately after running the program, user is prompted
+        # to select a difficulty level from easy / medium / hard
+        level = select_level_of_difficulty()
+        answer = return_answers(level)
+        question = return_questions(level)
+        print question
+        show_question(question, answer)
 
-def play_game_function(question, answers):
-    '''Plays a full game of The Big Bang Theory fill in the blanks quiz.
-       A player is prompted to replace blanks in question,
-       which appear in blanks with their own words. '''
+        #start_game() # game starts over
+    else:
+        quit()
 
-    game_output=[]
-    question=question.split()
-    blank_index=0
-    for word in question:
-        replacement =  word_in_pos(word, answer)
-        if replacement != None:
-            first_answer=word
-            game_output.append("_____"+str(blank_index+1)+"_____")
-            blank_index=blank_index+1
-        else:
-            game_output.append(word)
-
-    game_output = " ".join(game_output)
-    print game_output
-    number_of_questions=blank_index
-    check_players_answer(question, answer, player_answer)
-
-
-
-
-
-
-print get_question_and_answer(level)
+start_game() # game play starts when file is run
